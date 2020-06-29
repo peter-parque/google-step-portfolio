@@ -14,6 +14,7 @@
 
 package com.google.sps.servlets;
 
+import java.util.stream.Collectors;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String text = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+    String name = text.substring(text.indexOf(":")+2, text.lastIndexOf("\""));
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Peter!</h1>");
+    response.getWriter().println("Hello " + name + "!");
   }
 }
