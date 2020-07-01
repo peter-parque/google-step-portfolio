@@ -42,8 +42,7 @@ public class DataServlet extends HttpServlet {
         );
         comments.add(comment);
 
-        response.setContentType("text/html;");
-        response.getWriter().println("Comment recieved!");
+        response.sendRedirect("/");
     }
 
     @Override
