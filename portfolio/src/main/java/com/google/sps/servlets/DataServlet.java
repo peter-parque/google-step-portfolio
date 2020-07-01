@@ -25,11 +25,35 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String text = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-    String name = text.substring(text.indexOf(":")+2, text.lastIndexOf("\""));
-    response.setContentType("text/html;");
-    response.getWriter().println("Hello " + name + "!");
-  }
+    private List<String> comments;
+
+    @Override
+    public void init() {
+        comments = new ArrayList<>();
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Comment comment = new Comment(
+            request.getParameter("comment-text"),
+            request.getParameter("author")
+        );
+        comments.add(comment);
+
+        String jsonComments = new Gson().toJson(comments);
+
+        response.setContentType("text/html;");
+        response.getWriter().println(jsonComments);
+    }
+}
+
+public class Comment {
+
+    private final String text;
+    private final String author;
+
+    public Comment(String text, String author) {
+        this.text = text;
+        this.author = author;
+    }
 }
