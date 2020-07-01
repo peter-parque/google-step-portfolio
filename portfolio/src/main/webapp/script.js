@@ -43,5 +43,5 @@ async function getPersonalHello() {
   });
   const text = await response.text();
   console.log(text);
-  document.getElementById('personal-hello-containter').innerText = text;
+  document.getElementById('personal-hello-container').innerText = text;
 }
