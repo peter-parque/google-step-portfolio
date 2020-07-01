@@ -26,3 +26,22 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+async function getComments() {
+    const response = await fetch('/data');
+
+    const text = await response.json();
+    console.log(text);
+
+    const commentMarkup = `${text.map(comment =>
+    `<div class="comment">
+        <div class="comment-text">
+            ${comment.text}
+        </div>
+        <div class="comment-author">
+            ${comment.author}
+        </div>
+    </div>`).join('')}`;
+
+    document.getElementById('comment-container').innerHTML = commentMarkup;
+}
