@@ -18,12 +18,12 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,10 +67,18 @@ public class DataServlet extends HttpServlet {
     private String createJSON(PreparedQuery results) {
         List<Comment> comments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
-            comments.add(new Comment(
-                (String) entity.getProperty("text"),
-                (String) entity.getProperty("author")
-            ));
+            // comments.add(new Comment(
+            //     (String) entity.getProperty("text"),
+            //     (String) entity.getProperty("author")
+            // ));
+
+            // comments.add(new Comment.Builder().withText((String) entity.getProperty("text")).withAuthor((String) entity.getProperty("author")).build());
+            comments.add(new Comment.Builder()
+                .withText((String) entity.getProperty("text"))
+                .withAuthor((String) entity.getProperty("author"))
+                .build()
+            );
+
         }
 
         String jsonComments = new Gson().toJson(comments);
@@ -81,11 +89,42 @@ public class DataServlet extends HttpServlet {
 /** Class for simple blog comments.*/
 class Comment {
 
-    private final String text;
-    private final String author;
+    public static class Builder {
+        private String text;
+        private String author;
 
-    public Comment(String text, String author) {
-        this.text = text;
-        this.author = author;
+        public Builder() {
+        }
+
+        public Builder withText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Builder withAuthor(String author) {
+            this.author = author;
+            return this;
+        }
+
+        public Comment build() {
+            Comment comment = new Comment();
+            comment.text = this.text;
+            comment.author = this.author;
+
+            return comment;
+        }
+    }
+
+    private String text;
+    private String author;
+
+    private Comment() {
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += text + " " + author;
+        return result;
     }
 }

@@ -27,25 +27,6 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-/**
- * Adds a personal greeting to the page.
- */
-// async function getPersonalHello() {
-//   const name = document.getElementById('name-input').value;
-//   const data = { name : name };
-
-//   const response = await fetch('/data', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(data),
-//   });
-//   const text = await response.text();
-//   console.log(text);
-//   document.getElementById('personal-hello-container').innerText = text;
-// }
-
 async function getComments() {
     const response = await fetch('/data');
 
