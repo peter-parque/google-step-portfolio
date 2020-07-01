@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Peter's Portfolio!</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1>Peter's Portfolio!</h1>
+    <head>
+        <meta charset="UTF-8">
+        <title>Peter's Portfolio!</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="content">
+            <h1>Peter's Portfolio!</h1>
 
-      <div id="menu">
-        <div class="menu-button"><a href="/about.html">About</a></div>
-        <div class="menu-button"><a href="/spark.html">Spark</a></div>
-        <div class="menu-button"><a href="https://github.com/peter-parque" target="_blank">GitHub</a></div>
-        <div class="menu-button"><a href="https://www.linkedin.com/in/peter-tone-158075126/" target="_blank">LinkedIn</a></div>
-        <div class="menu-button"><a href="/docs/Peter_Tone_Resume.pdf" target="_blank">Resume</a></div>
-      </div>
+            <div id="menu">
+                <div class="menu-button"><a href="/about.html">About</a></div>
+                <div class="menu-button"><a href="/spark.html">Spark</a></div>
+                <div class="menu-button"><a href="https://github.com/peter-parque" target="_blank">GitHub</a></div>
+                <div class="menu-button"><a href="https://www.linkedin.com/in/peter-tone-158075126/" target="_blank">LinkedIn</a></div>
+                <div class="menu-button"><a href="/docs/Peter_Tone_Resume.pdf" target="_blank">Resume</a></div>
+            </div>
 
-      <img src="/images/peter_headshot.JPG" alt="Headshot" margin="auto" width="50%" height="50%">
-      <p>Hello! I'm a rising junior at MIT studying Computer Science and Theatre Arts.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+            <img src="/images/peter_headshot.JPG" alt="Headshot" margin="auto" width="50%" height="50%">
+                <p>Hello! I'm a rising junior at MIT studying Computer Science and Theatre Arts.</p>
+            <p>Click here to get a random message:</p>
+            <button onclick="addRandomGreeting()">Hello</button>
+            <div id="greeting-container"></div>
 
-      <p>And click here for a personal hello:</p>
-      <input id="name-input"/>
-      <button onclick="getPersonalHello()">Get your hello!</button>
-      <div id="personal-hello-container"></div>
-    </div>
-  </body>
+            <p>Leave Peter a message here!</p>
+            <form action="/data" method="post">
+                <label for="comment-text">Your message:</label><br>
+                <input type="text" id="comment-text" name="comment-text"><br>
+                <label for="author">Your name:</label>
+                <input type="text" id="author" name="author">
+                <input type="submit" value="Submit!">
+            </form>
+            <button onclick="getComments()">Show Comments</button>
+            <div id="comment-container"></div>
+        </div>
+    </body>
 </html>
