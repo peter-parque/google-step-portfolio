@@ -49,9 +49,26 @@ async function getComments() {
     document.getElementById('comment-container').innerHTML = commentMarkup;
 }
 
+/**
+ * Initializes a Google Map centered on the US.
+ */
 function initMap() {
     const map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 42.359, lng: -71.094 },
-    zoom: 10
+    center: { lat: 39.944, lng: -97.259 },
+    zoom: 2
   });
+
+  map.addListener("click", function(e) {
+      placeMarker(e.latLng, map);
+  });
+}
+
+function placeMarker(latLng, map) {
+    var confirmInput = confirm("Place a marker here?");
+    if (confirmInput) {
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+    }
 }
