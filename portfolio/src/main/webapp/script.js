@@ -27,6 +27,9 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+/**
+ * Fetches comments from server and displayes them on the page.
+ */
 async function getComments() {
     const response = await fetch('/data');
 
@@ -44,4 +47,11 @@ async function getComments() {
     </div>`).join('')}`;
 
     document.getElementById('comment-container').innerHTML = commentMarkup;
+}
+
+function initMap() {
+    const map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 42.359, lng: -71.094 },
+    zoom: 10
+  });
 }

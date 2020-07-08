@@ -5,6 +5,7 @@
         <title>Peter's Portfolio!</title>
         <link rel="stylesheet" href="style.css">
         <script src="script.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD45UtM1RRMJvh7Gzlyl1Hvcd5fApbZ5fU&callback=initMap"></script>
     </head>
     <body>
         <div id="content">
@@ -24,7 +25,10 @@
             <button onclick="addRandomGreeting()">Hello</button>
             <div id="greeting-container"></div>
 
-            <p>Leave Peter a message here!</p>
+            <p>Leave Peter a message here! Previous messages come from:</p>
+
+            <div id="map"></div>
+
             <form action="/data" method="post">
                 <label for="comment-text">Your message:</label><br>
                 <input type="text" id="comment-text" name="comment-text"><br>
