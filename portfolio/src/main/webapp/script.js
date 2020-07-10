@@ -54,21 +54,77 @@ async function getComments() {
  */
 function initMap() {
     const map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 39.944, lng: -97.259 },
-    zoom: 2
-  });
+        center: { lat: 39.944, lng: -97.259 },
+        zoom: 3
+    });
+    getMarkers(map);
 
-  map.addListener("click", function(e) {
-      placeMarker(e.latLng, map);
-  });
+    map.addListener("click", function(e) {
+        placeMarker(e.latLng, map);
+    });
 }
 
 function placeMarker(latLng, map) {
-    var confirmInput = confirm("Place a marker here?");
-    if (confirmInput) {
+    var confirmInput = prompt("Add your name to the marker and place?", "Name");
+    if (confirmInput != null) {
         var marker = new google.maps.Marker({
-            position: latLng,
-            map: map
+            lat: latLng.lat(),
+            lng: latLng.lng(),
+            map: map,
+            title: confirmInput
+        });
+        postMarker(marker);
+        console.log("we gucci up to here");
+        // getMarkers(map);
+    }
+}
+
+async function postMarker(marker) {
+    var requestBody = new URLSearchParams();
+    requestBody.append('lat', marker.lat);
+    requestBody.append('lng', marker.lng);
+    requestBody.append('title', marker.title);
+
+    const request = new Request('/markers', {
+        method: 'POST',
+        body: requestBody
+    });
+
+    fetch(request).then(response => { window.location.href = response.url; });
+    // console.log('here is your thing');
+    // console.log(response);
+    // console.log(response.json());
+
+    // // making separate object to avoid circular referenes
+    // var postData = new FormData();
+    // postData.append("json", JSON.stringify({"position":marker.position, "title":marker.title}));
+    // // var markerJSON = JSON.stringify({"position":marker.position, "title":marker.title});
+    // console.log(postData);
+
+    // const response = await fetch('/markers', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: postData
+    // });
+    // // console.log(response.json());
+    // return response.json();
+}
+
+async function getMarkers(map) {
+    const response = await fetch('/markers');
+
+    const markers = await response.json();
+    console.log("here we are");
+    console.log(markers);
+
+    for (markerJSON of markers) {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(markerJSON.lat), parseFloat(markerJSON.lng)),
+            map: map,
+            title: markerJSON.title
         });
     }
 }
