@@ -47,14 +47,13 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/index.html");
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
 
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+        Query query = new Query("Comment");
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
@@ -64,15 +63,10 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println(jsonComments);
     }
 
+    /** Creates formatted JSON strings from Comment Entity query results. */
     private String createJSON(PreparedQuery results) {
         List<Comment> comments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
-            // comments.add(new Comment(
-            //     (String) entity.getProperty("text"),
-            //     (String) entity.getProperty("author")
-            // ));
-
-            // comments.add(new Comment.Builder().withText((String) entity.getProperty("text")).withAuthor((String) entity.getProperty("author")).build());
             comments.add(new Comment.Builder()
                 .withText((String) entity.getProperty("text"))
                 .withAuthor((String) entity.getProperty("author"))
@@ -80,7 +74,6 @@ public class DataServlet extends HttpServlet {
             );
 
         }
-
         String jsonComments = new Gson().toJson(comments);
         return jsonComments;
     }

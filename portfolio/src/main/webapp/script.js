@@ -13,28 +13,12 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
-/**
  * Fetches comments from server and displayes them on the page.
  */
 async function getComments() {
     const response = await fetch('/data');
 
     const text = await response.json();
-    console.log(text);
 
     const commentMarkup = `${text.map(comment =>
     `<div class="comment">
@@ -54,21 +38,53 @@ async function getComments() {
  */
 function initMap() {
     const map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 39.944, lng: -97.259 },
-    zoom: 2
-  });
+        center: { lat: 39.944, lng: -97.259 },
+        zoom: 3
+    });
+    getMarkers(map);
 
-  map.addListener("click", function(e) {
-      placeMarker(e.latLng, map);
-  });
+    map.addListener("click", function(e) {
+        placeMarker(e.latLng, map);
+    });
 }
 
 function placeMarker(latLng, map) {
-    var confirmInput = confirm("Place a marker here?");
-    if (confirmInput) {
+    var confirmInput = prompt("Add your name to the marker and place?", "Name");
+    if (confirmInput != null) {
         var marker = new google.maps.Marker({
-            position: latLng,
-            map: map
+            lat: latLng.lat(),
+            lng: latLng.lng(),
+            map: map,
+            title: confirmInput
+        });
+        postMarker(marker);
+    }
+}
+
+async function postMarker(marker) {
+    var requestBody = new URLSearchParams();
+    requestBody.append('lat', marker.lat);
+    requestBody.append('lng', marker.lng);
+    requestBody.append('title', marker.title);
+
+    const request = new Request('/markers', {
+        method: 'POST',
+        body: requestBody
+    });
+
+    fetch(request).then(response => { window.location.href = response.url; });
+}
+
+async function getMarkers(map) {
+    const response = await fetch('/markers');
+
+    const markers = await response.json();
+
+    for (markerJSON of markers) {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(markerJSON.lat), parseFloat(markerJSON.lng)),
+            map: map,
+            title: markerJSON.title
         });
     }
 }
