@@ -34,7 +34,6 @@ async function getComments() {
     const response = await fetch('/data');
 
     const text = await response.json();
-    console.log(text);
 
     const commentMarkup = `${text.map(comment =>
     `<div class="comment">
@@ -74,8 +73,6 @@ function placeMarker(latLng, map) {
             title: confirmInput
         });
         postMarker(marker);
-        console.log("we gucci up to here");
-        // getMarkers(map);
     }
 }
 
@@ -91,34 +88,12 @@ async function postMarker(marker) {
     });
 
     fetch(request).then(response => { window.location.href = response.url; });
-    // console.log('here is your thing');
-    // console.log(response);
-    // console.log(response.json());
-
-    // // making separate object to avoid circular referenes
-    // var postData = new FormData();
-    // postData.append("json", JSON.stringify({"position":marker.position, "title":marker.title}));
-    // // var markerJSON = JSON.stringify({"position":marker.position, "title":marker.title});
-    // console.log(postData);
-
-    // const response = await fetch('/markers', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: postData
-    // });
-    // // console.log(response.json());
-    // return response.json();
 }
 
 async function getMarkers(map) {
     const response = await fetch('/markers');
 
     const markers = await response.json();
-    console.log("here we are");
-    console.log(markers);
 
     for (markerJSON of markers) {
         var marker = new google.maps.Marker({

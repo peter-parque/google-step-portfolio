@@ -24,7 +24,6 @@ public class MarkerServlet extends HttpServlet {
         String lat = request.getParameter("lat");
         String lng = request.getParameter("lng");
         String title = request.getParameter("title");
-        System.out.println("here's ya boi " + lng);
 
         Entity markerEntity = new Entity("Marker");
         markerEntity.setProperty("lat", lat);
