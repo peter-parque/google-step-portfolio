@@ -26,11 +26,11 @@ public final class FindMeetingQuery {
     * known events during that day.
     */
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-        Collection<TimeRange> includeOptional = query(events, request, true);
-        if (includeOptional.size() == 0) {
+        Collection<TimeRange> timesIncludingOptAttendees = query(events, request, true);
+        if (timesIncludingOptAttendees.size() == 0) {
             return query(events, request, false);
         } else {
-            return includeOptional;
+            return timesIncludingOptAttendees;
         }
     }
 
