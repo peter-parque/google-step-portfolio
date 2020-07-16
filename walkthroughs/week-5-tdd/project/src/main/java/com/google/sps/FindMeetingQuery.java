@@ -17,6 +17,11 @@ package com.google.sps;
 import java.util.*;
 
 public final class FindMeetingQuery {
+    
+    /**
+    * Returns a set of times in a day when a specified meeting could happen, given 
+    * known events during that day.
+    */
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         List<TimeRange> relevantTimes = removeIrrelevant(events, request.getAttendees());
 
